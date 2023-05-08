@@ -1,0 +1,23 @@
+# Compiled output
+*.exe
+*.o
+*.so
+*.test
+
+# Dependency directories
+/bin/
+/pkg/
+/vendor/
+
+# Go binary files
+*.prof
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-workspace
+
+# Other files
+.DS_Store
+Thumbs.db
+chat.txt
