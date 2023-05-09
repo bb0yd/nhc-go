@@ -1,0 +1,9 @@
+[
+		{
+			"token": "your_token_here",
+			"repositories": [
+				"git@github.com:bb0yd/good.git",
+                "git@github.com:bb0yd/bad.git"
+			]
+		}
+	]
