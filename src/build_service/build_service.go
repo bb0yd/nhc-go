@@ -74,7 +74,7 @@ func BuildProject(projectsPath string) (bool, string, map[string]BuildResult) {
 
 			buildScripts := []string{}
 			for key := range pkg.Scripts {
-				if strings.HasPrefix(key, "build") {
+				if strings.HasPrefix(key, "build") && key != "build:watch" {
 					buildScripts = append(buildScripts, key)
 				}
 			}
@@ -93,9 +93,16 @@ func BuildProject(projectsPath string) (bool, string, map[string]BuildResult) {
 
 				result.Scripts = append(result.Scripts, scriptResult)
 
-				if err != nil {
-					success = false
+				// Print formatted output
+			fmt.Printf("Repository: %s\n", projectDir)
+			fmt.Printf("Dependencies install time: %v\n", result.InstallTime)
+			for _, script := range result.Scripts {
+				status := "SUCCESS"
+				if !script.Success {
+					status = "FAILED"
 				}
+				fmt.Printf("Script: %s Duration: %v Result: %s\n", script.Name, script.Duration, status)
+			}
 			}
 
 			results[projectDir] <- result
@@ -111,18 +118,18 @@ func BuildProject(projectsPath string) (bool, string, map[string]BuildResult) {
 		}
 	}
 
-	// Print formatted output
-	for repo, result := range buildResults {
-		fmt.Printf("Repository: %s\n", repo)
-		fmt.Printf("Dependencies install time: %v\n", result.InstallTime)
-		for _, script := range result.Scripts {
-			status := "SUCCESS"
-			if !script.Success {
-				status = "FAILED"
-			}
-			fmt.Printf("Script: %s Duration: %v Result: %s\n", script.Name, script.Duration, status)
-		}
-	}
+	// // Print formatted output
+	// for repo, result := range buildResults {
+	// 	fmt.Printf("Repository: %s\n", repo)
+	// 	fmt.Printf("Dependencies install time: %v\n", result.InstallTime)
+	// 	for _, script := range result.Scripts {
+	// 		status := "SUCCESS"
+	// 		if !script.Success {
+	// 			status = "FAILED"
+	// 		}
+	// 		fmt.Printf("Script: %s Duration: %v Result: %s\n", script.Name, script.Duration, status)
+	// 	}
+	// }
 
 	if success {
 		return true, "All build scripts succeeded", buildResults
