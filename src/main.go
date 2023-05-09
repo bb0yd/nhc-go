@@ -2,33 +2,48 @@ package main
 
 import (
 	"fmt"
-	"nhc-go/src/git_service"
-	"os"
-	"time"
+	"log"
+
+	"nhc-go/src/build_service"
 )
 
 func main() {
-	start := time.Now()
-	if len(os.Args) != 2 {
-		fmt.Println("Usage: go run main.go <path_to_json_file>")
-		return
+	projectPath := "cloned_repos"
+
+	success, message, _ := build_service.BuildProject(projectPath)
+
+	if success {
+		fmt.Println("Build success:", message)
+	} else {
+		log.Println("Build failed:", message)
 	}
-
-	jsonFilePath := os.Args[1]
-	_, err := git_service.CloneReposFromFile(jsonFilePath)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	// fmt.Println("Clone Results:")
-	// for _, result := range results {
-	// 	fmt.Printf("Repository: %s, Duration: %v, Success: %v\n", result.RepoURL, result.Duration, result.Success)
-	// }
-
-	elapsed := time.Since(start)
-	fmt.Printf("Program took %s to run\n", elapsed)
+	//fmt.Println("Message:", message)
+	//fmt.Println("Build results:\n", buildResults)
 }
+
+
+// func main() {
+// 	start := time.Now()
+// 	if len(os.Args) != 2 {
+// 		fmt.Println("Usage: go run main.go <path_to_json_file>")
+// 		return
+// 	}
+
+// 	jsonFilePath := os.Args[1]
+// 	_, err := git_service.CloneReposFromFile(jsonFilePath)
+// 	if err != nil {
+// 		fmt.Println("Error:", err)
+// 		return
+// 	}
+
+// 	// fmt.Println("Clone Results:")
+// 	// for _, result := range results {
+// 	// 	fmt.Printf("Repository: %s, Duration: %v, Success: %v\n", result.RepoURL, result.Duration, result.Success)
+// 	// }
+
+// 	elapsed := time.Since(start)
+// 	fmt.Printf("Program took %s to run\n", elapsed)
+// }
 
 
 // NVM DRIVER
