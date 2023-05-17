@@ -118,18 +118,18 @@ func BuildProject(projectsPath string) (bool, string, map[string]BuildResult) {
 		}
 	}
 
-	// // Print formatted output
-	// for repo, result := range buildResults {
-	// 	fmt.Printf("Repository: %s\n", repo)
-	// 	fmt.Printf("Dependencies install time: %v\n", result.InstallTime)
-	// 	for _, script := range result.Scripts {
-	// 		status := "SUCCESS"
-	// 		if !script.Success {
-	// 			status = "FAILED"
-	// 		}
-	// 		fmt.Printf("Script: %s Duration: %v Result: %s\n", script.Name, script.Duration, status)
-	// 	}
-	// }
+	// Print formatted output
+	for repo, result := range buildResults {
+		fmt.Printf("Repository: %s\n", repo)
+		fmt.Printf("Dependencies install time: %v\n", result.InstallTime)
+		for _, script := range result.Scripts {
+			status := "SUCCESS"
+			if !script.Success {
+				status = "FAILED"
+			}
+			fmt.Printf("Script: %s Duration: %v Result: %s\n", script.Name, script.Duration, status)
+		}
+	}
 
 	if success {
 		return true, "All build scripts succeeded", buildResults
